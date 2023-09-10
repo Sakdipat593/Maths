@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เกมส์คณิตศาสตร์</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 40px;
+        color: #333;
+    }
+
+    #question {
+        font-size: 30px;
+        margin: 20px;
+    }
+
+    input[type="text"] {
+        padding: 10px;
+        font-size: 18px;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 18px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+<body>
+    <h1>เกมส์คณิตศาสตร์</h1>
+    <div id="question"></div>
+    <input type="text" id="answer" placeholder="กรอกคำตอบ">
+    <button onclick="checkAnswer()">ตรวจสอบ</button>
+
+    <script>
+        let currentQuestion = {};
+
+        function getRandomNumber(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function generateQuestion() {
+            const num1 = getRandomNumber(1, 10);
+            const num2 = getRandomNumber(1, 10);
+            const operators = ['+', '-', '*', '/'];
+            const operator = operators[getRandomNumber(0, operators.length - 1)];
+            let correctAnswer;
+
+            switch (operator) {
+                case '+':
+                    correctAnswer = num1 + num2;
+                    break;
+                case '-':
+                    correctAnswer = num1 - num2;
+                    break;
+                case '*':
+                    correctAnswer = num1 * num2;
+                    break;
+                case '/':
+                    correctAnswer = (num1 / num2).toFixed(2);
+                    break;
+            }
+
+            return { num1, num2, operator, correctAnswer };
+        }
+
+        function displayQuestion() {
+            currentQuestion = generateQuestion();
+            document.getElementById("question").innerHTML = `คำนวณ ${currentQuestion.num1} ${currentQuestion.operator} ${currentQuestion.num2} = ?`;
+        }
+
+        function checkAnswer() {
+            const userAnswer = parseFloat(document.getElementById("answer").value);
+            if (userAnswer === currentQuestion.correctAnswer) {
+                alert("ถูกต้อง!");
+            } else {
+                alert(`ผิด! คำตอบถูกคือ ${currentQuestion.correctAnswer}`);
+            }
+            
+            document.getElementById("answer").value = '';
+            displayQuestion();
+        }
+
+        window.onload = displayQuestion;
+    </script>
+</body>
+</html>
